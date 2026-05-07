@@ -2624,6 +2624,7 @@ body {
                     console.error('Error loading data:', e);
                 }
             }
+            ensureDataDefaults();
             // Auto-connect to Firebase (hardcoded config so all devices sync automatically)
             const HARDCODED_FIREBASE = {
                 apiKey: "AIzaSyB0105IMxdtjSjGYV0PlXRTvC5LD8bVBvg",
