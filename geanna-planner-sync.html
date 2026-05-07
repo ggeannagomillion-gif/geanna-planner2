@@ -2543,8 +2543,11 @@ body {
             if (!d.completedRunningIds)   d.completedRunningIds = {};
             if (!d.sprintList)            d.sprintList = {};
             if (!d.todos)                 d.todos = [];
+            if (!d.shopping)              d.shopping = [];
+            if (!d.runningList)           d.runningList = [];
             if (!d.strikewaveTodos)       d.strikewaveTodos = [];
             if (!d.permanentlyDismissed)  d.permanentlyDismissed = [];
+            if (!Array.isArray(d.brainDumpList)) d.brainDumpList = [];
         }
 
         // Auto-clear completed shopping items when the date changes (overnight reset).
@@ -2794,8 +2797,15 @@ body {
                     firebaseSyncRef.on('value', (snapshot) => {
                         const remoteData = snapshot.val();
                         if (remoteData && !isSyncingFromFirebase) {
-                            // Skip our own echo
+                            // Skip our own echo (exact match)
                             if (remoteData.lastModifiedBy === getDeviceId() && remoteData.lastModified === appState.data.lastModified) {
+                                updateSyncStatus(true, parsedConfig.projectId);
+                                return;
+                            }
+                            // Skip stale echoes of our own writes — but always accept updates from other devices
+                            if (remoteData.lastModifiedBy === getDeviceId() &&
+                                remoteData.lastModified && appState.data.lastModified &&
+                                remoteData.lastModified < appState.data.lastModified) {
                                 updateSyncStatus(true, parsedConfig.projectId);
                                 return;
                             }
