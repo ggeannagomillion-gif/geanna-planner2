@@ -4854,7 +4854,7 @@ body {
 
         function renderEveningReflections() {
             const dateStr = formatDateForStorage(appState.currentDate);
-            const reflections = appState.data.eveningReflections[dateStr] || {};
+            const reflections = (appState.data.eveningReflections || {})[dateStr] || {};
 
             document.getElementById('eveningWentWell').value = reflections.wentWell || '';
             document.getElementById('eveningTomorrow').value = reflections.tomorrow || '';
@@ -4864,7 +4864,7 @@ body {
             const strikeList = document.getElementById('strikeWaveTodoList');
             strikeList.innerHTML = '';
 
-            appState.data.strikewaveTodos.forEach((todo, index) => {
+            (appState.data.strikewaveTodos || []).forEach((todo, index) => {
                 const item = document.createElement('div');
                 item.className = 'todo-item';
                 if (todo.completed) item.classList.add('completed');
