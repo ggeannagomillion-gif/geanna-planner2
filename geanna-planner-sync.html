@@ -6019,6 +6019,27 @@ body {
                 </div>`;
             }
 
+            // Running list for page 2
+            const runningCatColors = { home:'#8B4513', pet:'#E67E22', personal:'#7B5EA7', work:'#2E86C1', other:'#5C4033' };
+            const runningCatIcons  = { home:'🏠', pet:'🐾', personal:'💜', work:'💼', other:'📋' };
+            const runningItems = (appState.data.runningList || []).filter(i => !i.completed);
+            const runningGrouped = {};
+            runningItems.forEach(i => {
+                const cat = i.category || 'other';
+                if (!runningGrouped[cat]) runningGrouped[cat] = [];
+                runningGrouped[cat].push(i);
+            });
+            let runningHTML = '';
+            Object.entries(runningGrouped).forEach(([cat, items]) => {
+                const col = runningCatColors[cat] || '#C4956A';
+                const icon = runningCatIcons[cat] || '📋';
+                runningHTML += `<div style="margin-bottom:10px;">
+                    <div style="background:${col};color:white;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:bold;margin-bottom:5px;">${icon} ${cat.charAt(0).toUpperCase()+cat.slice(1)}</div>
+                    ${items.map(i => `<div style="display:flex;align-items:center;gap:6px;padding:3px 6px;font-size:11px;"><input type="checkbox"> ${i.text}</div>`).join('')}
+                </div>`;
+            });
+            if (!runningHTML) runningHTML = '<div style="color:#aaa;font-size:11px;">Nothing parked here!</div>';
+
             // Claude updates for page 2
             const claudeHTML = claudeUpdates.length > 0
                 ? claudeUpdates.map(u => `<div style="font-size:11px;padding:3px 0;border-bottom:1px dotted #ddd;">${u.text || u}</div>`).join('')
@@ -6133,16 +6154,16 @@ body {
 <!-- PAGE 2 -->
 <div class="page page-break">
   <div class="page-header">
-    <h1>🏃‍♀️ Sprint List & Notes</h1>
+    <h1>📋 Running List & Notes</h1>
     <div class="meta"><div style="font-size:13px;font-weight:bold;">${fullDate}</div></div>
   </div>
 
   <div class="two-col">
-    <!-- LEFT: Sprint List -->
+    <!-- LEFT: Running List -->
     <div>
       <div class="section">
-        <div class="section-title">🏃‍♀️ Sprint List</div>
-        ${sprintHTML}
+        <div class="section-title">📋 Running List</div>
+        ${runningHTML}
       </div>
     </div>
 
