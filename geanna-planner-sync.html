@@ -2759,7 +2759,13 @@ body {
                     continue;
                 }
 
-                // Arrays or primitives — remote wins (most recent write)
+                // Arrays: remote wins only if it's actually fresher; otherwise protect local data
+                if (Array.isArray(localVal) && Array.isArray(remoteVal)) {
+                    result[key] = remoteFresher ? remoteVal : localVal;
+                    continue;
+                }
+
+                // Primitives — remote wins (most recent write)
                 result[key] = remoteVal;
             }
             return result;
