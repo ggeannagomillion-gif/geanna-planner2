@@ -2882,21 +2882,28 @@ body {
             const btn = document.getElementById('forceSyncBtn');
             if (btn) { btn.textContent = '↻ Syncing…'; btn.disabled = true; }
             firebaseDb.ref(appState.data.firebaseSyncPath).once('value', (snapshot) => {
-                const remoteData = snapshot.val();
-                if (remoteData) {
-                    isSyncingFromFirebase = true;
-                    // Full overwrite — remote wins completely, no local data preserved
-                    // Keeps firebaseSyncPath and firebaseConfig so we stay connected
-                    const savedPath = appState.data.firebaseSyncPath;
-                    const savedConfig = appState.data.firebaseConfig;
-                    appState.data = remoteData;
-                    appState.data.firebaseSyncPath = savedPath;
-                    appState.data.firebaseConfig = savedConfig;
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.data));
-                    updateAllViews();
+                try {
+                    const remoteData = snapshot.val();
+                    if (remoteData) {
+                        isSyncingFromFirebase = true;
+                        // Full overwrite — remote wins completely, no local data preserved
+                        // Keeps firebaseSyncPath and firebaseConfig so we stay connected
+                        const savedPath = appState.data.firebaseSyncPath;
+                        const savedConfig = appState.data.firebaseConfig;
+                        appState.data = remoteData;
+                        appState.data.firebaseSyncPath = savedPath;
+                        appState.data.firebaseConfig = savedConfig;
+                        ensureDataDefaults();
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.data));
+                        updateAllViews();
+                        isSyncingFromFirebase = false;
+                    }
+                } catch(e) {
+                    console.error('Pull error:', e);
                     isSyncingFromFirebase = false;
+                } finally {
+                    if (btn) { btn.textContent = '⬇️ Pull'; btn.disabled = false; }
                 }
-                if (btn) { btn.textContent = '↻ Sync Now'; btn.disabled = false; }
             });
         }
 
