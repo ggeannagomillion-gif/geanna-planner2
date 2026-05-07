@@ -2526,6 +2526,27 @@ body {
             saveData();
         }
 
+        // Ensure all required data fields exist after a Firebase sync (prevents undefined crashes)
+        function ensureDataDefaults() {
+            const d = appState.data;
+            if (!d.recurringDone)         d.recurringDone = {};
+            if (!d.waterTracker)          d.waterTracker = {};
+            if (!d.habits)                d.habits = {};
+            if (!d.eveningReflections)    d.eveningReflections = {};
+            if (!d.mealNotes)             d.mealNotes = {};
+            if (!d.recipes)               d.recipes = {};
+            if (!d.claudeUpdates)         d.claudeUpdates = {};
+            if (!d.scheduleItems)         d.scheduleItems = {};
+            if (!d.mits)                  d.mits = {};
+            if (!d.completedTodoIds)      d.completedTodoIds = {};
+            if (!d.completedShoppingIds)  d.completedShoppingIds = {};
+            if (!d.completedRunningIds)   d.completedRunningIds = {};
+            if (!d.sprintList)            d.sprintList = {};
+            if (!d.todos)                 d.todos = [];
+            if (!d.strikewaveTodos)       d.strikewaveTodos = [];
+            if (!d.permanentlyDismissed)  d.permanentlyDismissed = [];
+        }
+
         // Auto-clear completed shopping items when the date changes (overnight reset).
         // Runs once per day based on a stored lastOpenDate.
         function autoClearCompletedOvernight() {
@@ -2789,6 +2810,7 @@ body {
                             const remoteFresher = !appState.data.lastModified ||
                                 (remoteData.lastModified && remoteData.lastModified > appState.data.lastModified);
                             appState.data = deepMerge(appState.data, remoteData, remoteFresher);
+                            ensureDataDefaults();
                             autoClearCompletedOvernight(); // Wipe stale checked-off shopping items after merge
                             rolloverSprintTodos(); // Re-run rollover after merge so uncompleted todos move to today
                             localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.data));
@@ -3601,6 +3623,7 @@ body {
             const recurringList = document.getElementById('recurringList');
             recurringList.innerHTML = '';
 
+            if (!appState.data.recurringDone) appState.data.recurringDone = {};
             const dismissed = new Set(appState.data.permanentlyDismissed || []);
             const tasksForToday = [];
 
