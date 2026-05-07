@@ -1,7 +1,7 @@
 // Geanna's Planner — Service Worker
 // Caches the app for offline use + handles scheduled notifications
 
-const CACHE_NAME = 'geanna-planner-v40';
+const CACHE_NAME = 'geanna-planner-v41';
 const ASSETS_TO_CACHE = [
     './geanna-planner-sync.html',
     './manifest.json',

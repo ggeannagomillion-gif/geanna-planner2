@@ -2799,15 +2799,7 @@ body {
                                 updateSyncStatus(true, parsedConfig.projectId);
                                 return;
                             }
-                            // Skip if remote is older than our current local data (prevents stale echo overwriting fresh local data)
-                            if (remoteData.lastModified && appState.data.lastModified &&
-                                remoteData.lastModified < appState.data.lastModified) {
-                                updateSyncStatus(true, parsedConfig.projectId);
-                                return;
-                            }
                             isSyncingFromFirebase = true;
-                            // remoteFresher = true when Firebase has a newer timestamp than our local data
-                            // This tells deepMerge to trust remote arrays over stale local ones
                             const remoteFresher = !appState.data.lastModified ||
                                 (remoteData.lastModified && remoteData.lastModified > appState.data.lastModified);
                             appState.data = deepMerge(appState.data, remoteData, remoteFresher);
