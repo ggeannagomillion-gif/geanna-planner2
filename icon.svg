@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- App background -->
+  <rect width="512" height="512" rx="90" fill="#3D2B1F"/>
+
+  <!-- Calendar body (cream background) -->
+  <rect x="72" y="140" width="368" height="300" rx="18" fill="#FAF8F5"/>
+
+  <!-- Calendar header bar (warm tan) -->
+  <rect x="72" y="140" width="368" height="82" rx="18" fill="#C4956A"/>
+  <rect x="72" y="182" width="368" height="40" fill="#C4956A"/>
+
+  <!-- Calendar ring left -->
+  <rect x="162" y="96" width="28" height="80" rx="14" fill="#5C4033"/>
+  <!-- Calendar ring right -->
+  <rect x="322" y="96" width="28" height="80" rx="14" fill="#5C4033"/>
+
+  <!-- Header text: "G" initial -->
+  <text x="256" y="208" text-anchor="middle" font-family="Georgia, serif" font-size="52" fill="#FAF8F5" font-weight="bold">MY PLANNER</text>
+
+  <!-- Calendar grid dots (3x4 grid) -->
+  <!-- Row 1 -->
+  <circle cx="148" cy="278" r="10" fill="#C4956A"/>
+  <circle cx="208" cy="278" r="10" fill="#2D8A4E"/>
+  <circle cx="268" cy="278" r="10" fill="#C4956A"/>
+  <circle cx="328" cy="278" r="10" fill="#7B5EA7"/>
+  <circle cx="388" cy="278" r="10" fill="#C0392B"/>
+  <!-- Row 2 -->
+  <circle cx="148" cy="322" r="10" fill="#C4956A"/>
+  <circle cx="208" cy="322" r="10" fill="#C4956A"/>
+  <circle cx="268" cy="322" r="14" fill="#3D2B1F"/>
+  <circle cx="328" cy="322" r="10" fill="#2D8A4E"/>
+  <circle cx="388" cy="322" r="10" fill="#C4956A"/>
+  <!-- Row 3 -->
+  <circle cx="148" cy="366" r="10" fill="#2980B9"/>
+  <circle cx="208" cy="366" r="10" fill="#C4956A"/>
+  <circle cx="268" cy="366" r="10" fill="#C4956A"/>
+  <circle cx="328" cy="366" r="10" fill="#C0392B"/>
+  <circle cx="388" cy="366" r="10" fill="#C4956A"/>
+
+  <!-- Accent line at bottom -->
+  <rect x="72" y="402" width="368" height="4" fill="#C4956A" opacity="0.4"/>
+</svg>
